@@ -17,5 +17,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('getSchedule', views.queryGetShedule),
+    path('getStudentCourse', views.queryGetStudentCourse),
+    path('addStudentCourse', views.queryAddStudentCourse)
 ]

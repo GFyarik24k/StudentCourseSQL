@@ -1,27 +1,29 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Schedule
-from .serializers import ScheduleSerializers
-from func_app.func import getSchedule, addSchedule
+from .serializers import StudentCourseSerializer
+from saveDB.func import getStudentCourse, addStudentCourse
 from drf_spectacular.utils import extend_schema
 
 
-class GetScheduleView(APIView):
-    @extend_schema(request=ScheduleSerializers, responses=ScheduleSerializers)
-    def get(self, request, day, discipline, times, teacher):
-        s = getSchedule(day, discipline, times, teacher)
-        print(s)
-        schedule = (ScheduleSerializers(instance=st).data for st in s) if s is not None else []
+class GetStudentCourseView(APIView):
+    @extend_schema(request=StudentCourseSerializer, responses=StudentCourseSerializer)
+    def get(self, request, num, full_name, topic_selection, selecting_sources,
+                  carrying_reserch, shaping_work, making, defending):
+        a = getStudentCourse(num, full_name, topic_selection, selecting_sources,
+                  carrying_reserch, shaping_work, making, defending)
+        print(num, full_name, topic_selection, selecting_sources,
+                  carrying_reserch, shaping_work, making, defending)
+        print(a)
+        a = (StudentCourseSerializer(instance=st).data for st in a) if a is not None else []
+        print(a)
+        return Response(a)
 
-        return Response(s)
+class AddStudentCourseView(APIView):
+    @extend_schema(request=StudentCourseSerializer, responses=StudentCourseSerializer)
+    def post(self, request, num, full_name, topic_selection, selecting_sources,
+                  carrying_reserch, shaping_work, making, defending):
+        a = addStudentCourse(num, full_name, topic_selection, selecting_sources,
+                  carrying_reserch, shaping_work, making, defending)
 
-class SetScheduleView(APIView):
-    @extend_schema(request=ScheduleSerializers, responses=ScheduleSerializers)
-    def set(self, request, day, discipline, times, teacher):
-        s = addSchedule(day, discipline, times, teacher)
-        # k.day = ScheduleSerializers(instance=k.day).data
-        # k.discipline = ScheduleSerializers(instance=k.schedule.discipline).data
-        # k.times = ScheduleSerializers(instance=k.times).data
-        # k.teacher = ScheduleSerializers(instance=k.teacher).data
-        return Response(s)
+        return Response(a)

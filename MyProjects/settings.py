@@ -11,6 +11,28 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from pathlib import Path
+from environ import environ
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+ # set casting, default value
+ DEBUG=(bool, False)
+)
+environ.Env.read_env('../.env')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY')
+ALLOWED_HOSTS = ['*']
+
+WSGI_APPLICATION = env('WSGI_APPLICATION')
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+STATIC_URL = 'static/'
+STATIC_ROOT = env('STATIC_ROOT')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +47,6 @@ SECRET_KEY = 'django-insecure-8@+ah^uft7ymie9k@-pkw22=otjdnkvt%!u2zs(4%y^=e$$lty
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,8 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'func_app',
-    'test_app',
+    'outputDB',
+    'saveDB',
     'api',
     'rest_framework',
     'drf_spectacular'
@@ -133,8 +152,8 @@ REST_FRAMEWORK = {
 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'API sqlite3',
-    'DESCRIPTION': 'API shows additional courses',
+    'TITLE': 'DB STUDENT COURSE API',
+    'DESCRIPTION': 'Предназначена для вывода и ввода данных в БД STUDENT_COURSE',
     'VERSION': '1.0',
     'SERVE_INCLUDE_SCHEME': False,
 }
